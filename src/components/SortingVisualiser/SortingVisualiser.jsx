@@ -14,31 +14,31 @@ class SortingVisualiser extends React.Component {
 
 
 
-    
+
     componentDidMount() {
         this.resetArray();
     }
 
-    resetArray(){
+    resetArray() {
         const array = [];
-        for(let i=0; i<250; i++){
-            array.push(randomIntFromInterval(5,800));
+        for (let i = 0; i < 250; i++) {
+            array.push(randomIntFromInterval(5, 800));
         }
-        this.setState({array});
+        this.setState({ array });
     }
 
-    sortArray(){
+    sortArray() {
         const animations = getMergeSortAnimations(this.state.array);
         const newAnimations = [];
-        for(const animation of animations){
+        for (const animation of animations) {
             newAnimations.push(animation);
 
         }
 
-        for(let i=0; i<newAnimations.length; i++){
+        for (let i = 0; i < newAnimations.length; i++) {
             const arrayBars = document.getElementsByClassName("array-bar");
             const isColorChange = i % 3 !== 2;
-            if(isColorChange){
+            if (isColorChange) {
                 const [barOneIdx, barTwoIdx] = newAnimations[i];
                 const barOneStyle = arrayBars[barOneIdx].style;
                 const barTwoStyle = arrayBars[barTwoIdx].style;
@@ -46,7 +46,7 @@ class SortingVisualiser extends React.Component {
                 setTimeout(() => {
                     barOneStyle.backgroundColor = color;
                     barTwoStyle.backgroundColor = color;
-                    playNote(barOneIdx * 10,1)
+                    playNote(barOneIdx * 10, 1)
 
                 }, i * 5);
             } else {
@@ -54,39 +54,39 @@ class SortingVisualiser extends React.Component {
                     const [barOneIdx, newHeight] = newAnimations[i];
                     const barOneStyle = arrayBars[barOneIdx].style;
                     barOneStyle.height = `${newHeight}px`;
-                    playNote(barOneIdx* 10,1)
+                    playNote(barOneIdx * 10, 1)
                 }, i * 5);
             }
         }
-    } 
-        
-    render() { 
-        const array = this.state.array;
-        return(
-            <>
-            <div className="array-container">
-                {array.map((value, index) => (
-                    <div
-                        className="array-bar"
-                        key={index}
-                        tone={value}
-                        style={{height: `${value}px`}}
-                    >    
-                    </div>
-                ))}
-            </div>
-            <div className="button-container">
-                <button onClick={() => this.resetArray()}>Generate New Array</button>
-                <button onClick={() => this.sortArray()}>Sort</button>
+    }
 
-            </div>
+    render() {
+        const array = this.state.array;
+        return (
+            <>
+                <div className="array-container">
+                    {array.map((value, index) => (
+                        <div
+                            className="array-bar"
+                            key={index}
+                            tone={value}
+                            style={{ height: `${value}px` }}
+                        >
+                        </div>
+                    ))}
+                </div>
+                <div className="button-container">
+                    <button onClick={() => this.resetArray()}>Generate New Array</button>
+                    <button onClick={() => this.sortArray()}>Sort</button>
+
+                </div>
             </>
         )
     }
 }
- 
-function randomIntFromInterval(min,max){
-    return Math.floor(Math.random()*(max-min+1)+min);
+
+function randomIntFromInterval(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 /* function arraysAreEqual(array1, array2){
