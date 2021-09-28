@@ -9,6 +9,7 @@ class SortingVisualiser extends React.Component {
 
         this.state = {
             array: [],
+            speed: 1
         }
     }
 
@@ -24,7 +25,7 @@ class SortingVisualiser extends React.Component {
         for (let i = 0; i < 250; i++) {
             array.push(randomIntFromInterval(5, 800));
         }
-        this.setState({ array });
+        this.setState({ 'array':array, 'speed':this.state.speed });
     }
 
     sortArray() {
@@ -46,16 +47,16 @@ class SortingVisualiser extends React.Component {
                 setTimeout(() => {
                     barOneStyle.backgroundColor = color;
                     barTwoStyle.backgroundColor = color;
-                    playNote(barOneIdx * 10, 1)
+                    playNote(barOneIdx * 10, 1 * this.state.speed)
 
-                }, i * 5);
+                }, i * this.state.speed);
             } else {
                 setTimeout(() => {
                     const [barOneIdx, newHeight] = newAnimations[i];
                     const barOneStyle = arrayBars[barOneIdx].style;
                     barOneStyle.height = `${newHeight}px`;
-                    playNote(barOneIdx * 10, 1)
-                }, i * 5);
+                    playNote(barOneIdx * 10, 1 * this.state.speed)
+                }, i * this.state.speed);
             }
         }
     }
@@ -78,7 +79,12 @@ class SortingVisualiser extends React.Component {
                 <div className="button-container">
                     <button onClick={() => this.resetArray()}>Generate New Array</button>
                     <button onClick={() => this.sortArray()}>Sort</button>
-
+                    <div>
+                        <input onChange={(e) => this.setState({speed:e.target.value})} type="range" id="speed" name="speed"
+                                min="1" max="10" value={this.state.speed}></input>
+                        <label>Speed</label>
+                    </div>
+                    {this.state.speed}
                 </div>
             </>
         )
